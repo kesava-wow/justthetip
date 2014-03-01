@@ -1,0 +1,8 @@
+## Interface: 50400
+## Author: Kesava
+## Title: JustTheTip |cffffffff(|cff9900ffKui|cffffffff)|r
+## Notes: Mouseover unit names.
+## Dependencies: Kui
+
+lib\embeds.xml
+core.lua
