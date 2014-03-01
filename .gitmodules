@@ -1,0 +1,6 @@
+[submodule "Kui_Media"]
+	path = Kui_Media
+	url = https://rbtwrrr@bitbucket.org/rbtwrrr/kui-media
+[submodule "JustTheTip/lib/Kui"]
+	path = JustTheTip/lib/Kui
+	url = https://rbtwrrr@bitbucket.org/rbtwrrr/kuilib
