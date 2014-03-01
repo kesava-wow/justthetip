@@ -1,0 +1,18 @@
+externals
+    lib/LibStub:
+        url: svn://svn.wowace.com/wow/libstub/mainline/trunk
+
+manual-changelog:
+    filename: changelog
+    markup-type: creole
+
+enable-nolib-creation:
+    no
+
+move-folders:
+    JustTheTip/Kui_Media: Kui_Media
+    JustTheTip/JustTheTip: JustTheTip
+
+ignore:
+    - .gitignore
+    - changelog
