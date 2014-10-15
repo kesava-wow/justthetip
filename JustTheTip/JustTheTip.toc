@@ -1,6 +1,6 @@
-## Interface: 50400
+## Interface: 60000
 ## Author: Kesava
-## Title: JustTheTip |cffffffff(|cff9900ffKui|cffffffff)|r
+## Title: Kui |cff9966ffJustTheTip|r
 ## Notes: Mouseover unit names.
 lib\embeds.xml
 core.lua
