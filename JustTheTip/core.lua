@@ -3,7 +3,7 @@ local addon = JustTheTip or nil
 local kui = LibStub('Kui-1.0')
 
 -- globals
-local len, sub = string.len, string.sub
+local len,format = string.len,string.format
 local GetCursorPosition, UnitName, UnitHealth =
       GetCursorPosition, UnitName, UnitHealth
 
@@ -51,14 +51,14 @@ local function UpdateDisplay()
     local status = (AFK and "[Away] ") or (DND and "[Busy] ") or ""
 
     -- resolve level to hex string
-    levelColour = string.format("%02x%02x%02x",
+    levelColour = format("%02x%02x%02x",
         levelColour.r*255,
         levelColour.g*255,
         levelColour.b*255)
 
     -- resolve name colour
     local nameColour = kui.GetUnitColour(u)
-    nameColour = string.format("%02x%02x%02x",
+    nameColour = format("%02x%02x%02x",
         nameColour.r*255,
         nameColour.g*255,
         nameColour.b*255)
