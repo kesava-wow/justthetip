@@ -22,6 +22,17 @@ local c = {
 local UPDATE_PERIOD = .1
 local last_update = UPDATE_PERIOD
 
+local function SetPosition()
+    local x, y = GetCursorPosition()
+    x = (x / UIParent:GetEffectiveScale()) + c.X_OFFSET
+    y = (y / UIParent:GetEffectiveScale()) + c.Y_OFFSET
+
+    addon.text:SetPoint("CENTER", UIParent, "BOTTOMLEFT",
+        x, y)
+    addon.subtext:SetPoint("CENTER", UIParent, "BOTTOMLEFT",
+        x, y + c.SUBTEXT_Y_OFFSET)
+end
+
 -- main tooltip update function
 local function UpdateDisplay()
     local focus = GetMouseFocus()
@@ -88,6 +99,7 @@ local function UpdateDisplay()
         addon.subtext:SetText("")
     end
 
+    SetPosition()
     addon:Show()
 end
 
@@ -95,23 +107,16 @@ end
 local function OnUpdate(self,elap)
     last_update = last_update + elap
 
-    -- update position every frame
-    local x, y = GetCursorPosition()
-    x = (x / UIParent:GetEffectiveScale()) + c.X_OFFSET
-    y = (y / UIParent:GetEffectiveScale()) + c.Y_OFFSET
+    if not UnitExists("mouseover") then
+        self:Hide()
+        return
+    end
 
-    self.text:SetPoint("CENTER", UIParent, "BOTTOMLEFT",
-        x, y)
-    self.subtext:SetPoint("CENTER", UIParent, "BOTTOMLEFT",
-        x, y + c.SUBTEXT_Y_OFFSET)
+    -- update position every frame
+    SetPosition()
 
     if last_update > UPDATE_PERIOD then
         last_update = 0
-
-        if not UnitExists("mouseover") then
-            self:Hide()
-            return
-        end
 
         local target, health =
             UnitName('mouseovertarget'),
