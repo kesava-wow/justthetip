@@ -1,4 +1,4 @@
-## Interface: 70300
+## Interface: 80000
 ## Author: Kesava
 ## Title: Kui |cff9966ffJustTheTip|r
 ## Notes: Mouseover unit names.
