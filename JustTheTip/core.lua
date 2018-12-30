@@ -1,11 +1,8 @@
-CreateFrame('Frame','JustTheTip',UIParent)
-local addon = JustTheTip or nil
+local addon = CreateFrame('Frame','JustTheTip',UIParent)
 local kui = LibStub('Kui-1.0')
 
 -- globals
 local len,format = string.len,string.format
-local GetCursorPosition, UnitName, UnitHealth =
-      GetCursorPosition, UnitName, UnitHealth
 
 -- settings
 local c = {
@@ -24,8 +21,8 @@ local last_update = UPDATE_PERIOD
 
 local function SetPosition()
     local x, y = GetCursorPosition()
-    x = (x / UIParent:GetEffectiveScale()) + c.X_OFFSET
-    y = (y / UIParent:GetEffectiveScale()) + c.Y_OFFSET
+    x = (x / UIParent:GetScale()) + c.X_OFFSET
+    y = (y / UIParent:GetScale()) + c.Y_OFFSET
 
     addon.text:SetPoint("CENTER", UIParent, "BOTTOMLEFT",
         x, y)
@@ -130,7 +127,7 @@ local function OnUpdate(self,elap)
 end
 
 -- event handlers
-function addon.ADDON_LOADED(self,name)
+function addon:ADDON_LOADED(name)
     if name ~= 'JustTheTip' then return end
     self:SetFrameStrata("TOOLTIP")
     self:Hide()
@@ -151,15 +148,14 @@ function addon.ADDON_LOADED(self,name)
     self:SetScript('OnUpdate', OnUpdate)
 end
 
-function addon.UPDATE_MOUSEOVER_UNIT(self)
+function addon:UPDATE_MOUSEOVER_UNIT()
     UpdateDisplay()
 end
 
--- core event handler
+-- initialise
 addon:SetScript('OnEvent', function(self,event,...)
     self[event](self,...)
 end)
 
--- initialise
 addon:RegisterEvent('ADDON_LOADED')
 addon:RegisterEvent('UPDATE_MOUSEOVER_UNIT')
