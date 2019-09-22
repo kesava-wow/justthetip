@@ -1,0 +1,12 @@
+meta root JustTheTip Kui_Media
+meta repo kesava-wow/justthetip.git
+
+git-subtree kuilib JustTheTip/lib/Kui/
+github-kesava:kesava-wow/kuilib.git
+
+git-subtree kuimedia Kui_Media/
+github-kesava:kesava-wow/kuimedia.git
+
+svn libstub JustTheTip/lib/LibStub/LibStub.lua
+https://repos.wowace.com/wow/libstub/trunk/LibStub.lua
+
