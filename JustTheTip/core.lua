@@ -1,5 +1,6 @@
 local addon = CreateFrame('Frame','JustTheTip',UIParent)
 local kui = LibStub('Kui-1.0')
+local RMH
 
 -- globals
 local len,format = string.len,string.format
@@ -129,6 +130,11 @@ end
 -- event handlers
 function addon:ADDON_LOADED(name)
     if name ~= 'JustTheTip' then return end
+
+    if kui.CLASSIC and RealMobHealth then
+        RMH = RealMobHealth
+    end
+
     self:SetFrameStrata("TOOLTIP")
     self:Hide()
 
