@@ -45,13 +45,17 @@ local function UpdateDisplay()
 
     local u = 'mouseover'
     local level,cl,levelColour = kui.UnitLevel(u)
-    local name,AFK,DND,health,max,faction =
-        UnitName(u),
+    local AFK,DND,faction =
         UnitIsAFK(u),
         UnitIsDND(u),
-        UnitHealth(u),
-        UnitHealthMax(u),
         UnitIsPlayer(u) and UnitFactionGroup(u) or nil
+
+    local health,max
+    if RMH then
+        health,max = RMH.GetUnitHealth(u)
+    else
+        health,max = UnitHealth(u),UnitHealthMax(u)
+    end
 
     -- resolve faction suffix
     local factionSuf = ''
