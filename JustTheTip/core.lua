@@ -40,6 +40,9 @@ local function UpdateDisplay()
         return
     end
 
+    local name = UnitName('mouseover')
+    if not name then return end
+
     local u = 'mouseover'
     local level,cl,levelColour = kui.UnitLevel(u)
     local name,AFK,DND,health,max,faction =
