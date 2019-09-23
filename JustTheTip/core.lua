@@ -105,8 +105,11 @@ local function UpdateDisplay()
 
     local name = UnitName('mouseover')
     if not name then return end
-    local u = 'mouseover'
 
+    local name_r,name_g,name_b = GetUnitColour('mouseover')
+    if not name_r then return end
+
+    local u = 'mouseover'
     local level,cl,levelColour = kui.UnitLevel(u)
     local AFK,DND,faction =
         UnitIsAFK(u),
@@ -144,8 +147,8 @@ local function UpdateDisplay()
             (factionSuf or ''))
     end
 
-    -- mouseover's target (subtext)
     if UnitIsVisible("mouseovertarget") then
+        -- mouseover's target name
         local name = UnitName("mouseovertarget")
 
         if name == UnitName("player") then
@@ -156,9 +159,13 @@ local function UpdateDisplay()
             addon.subtext:SetText(name)
         end
     else
+        -- npc title (or blank)
         local npc_title = GetNPCTitle()
         addon.subtext:SetText(npc_title or '')
+
         if npc_title then
+            -- XXX this won't conflict with brightening in GetUnitColour,
+            -- since that doesn't apply to NPCs...
             addon.subtext:SetTextColor(kui.Brighten(.7,name_r,name_g,name_b))
         end
     end
