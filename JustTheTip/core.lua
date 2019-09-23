@@ -1,12 +1,14 @@
 local addon = CreateFrame('Frame','JustTheTip',UIParent)
 local kui = LibStub('Kui-1.0')
+local kc = LibStub('KuiConfig-1.0')
+local LSM = LibStub('LibSharedMedia-3.0')
 local RMH
 
 -- globals
 local len,format = string.len,string.format
 
 -- settings
-local c = {
+local default_config = {
     X_OFFSET          = 0,
     Y_OFFSET          = 14,
     SUBTEXT_Y_OFFSET  = 13,
@@ -22,13 +24,13 @@ local last_update = UPDATE_PERIOD
 
 local function SetPosition()
     local x, y = GetCursorPosition()
-    x = (x / UIParent:GetScale()) + c.X_OFFSET
-    y = (y / UIParent:GetScale()) + c.Y_OFFSET
+    x = (x / UIParent:GetScale()) + addon.profile.X_OFFSET
+    y = (y / UIParent:GetScale()) + addon.profile.Y_OFFSET
 
     addon.text:SetPoint("CENTER", UIParent, "BOTTOMLEFT",
         x, y)
     addon.subtext:SetPoint("CENTER", UIParent, "BOTTOMLEFT",
-        x, y + c.SUBTEXT_Y_OFFSET)
+        x, y + addon.profile.SUBTEXT_Y_OFFSET)
 end
 
 -- main tooltip update function
@@ -134,6 +136,25 @@ local function OnUpdate(self,elap)
     end
 end
 
+function addon:ConfigChanged()
+    self.profile = self.config:GetConfig()
+    local p = self.profile
+    local font = LSM:Fetch(LSM.MediaType.FONT,p.FONT)
+
+    self.text:SetFont(font,p.FONT_SIZE,p.FONT_STYLE)
+    self.subtext:SetFont(font,p.SUBTEXT_FONT_SIZE,p.FONT_STYLE)
+
+    if p.FONT_SHADOW then
+        self.text:SetShadowColor(0,0,0,1)
+        self.subtext:SetShadowColor(0,0,0,1)
+        self.text:SetShadowOffset(1,-1)
+        self.subtext:SetShadowOffset(1,-1)
+    else
+        self.text:SetShadowColor(0,0,0,0)
+        self.subtext:SetShadowColor(0,0,0,0)
+    end
+end
+
 -- event handlers
 function addon:ADDON_LOADED(name)
     if name ~= 'JustTheTip' then return end
@@ -146,17 +167,13 @@ function addon:ADDON_LOADED(name)
     self:Hide()
 
     self.text = self:CreateFontString(nil, "OVERLAY")
-    self.text:SetFont(c.FONT, c.FONT_SIZE, c.FONT_STYLE)
+    self.text:SetTextColor(.5, .5, .5)
 
     self.subtext = self:CreateFontString(nil, "OVERLAY")
-    self.subtext:SetFont(c.FONT, c.SUBTEXT_FONT_SIZE, c.FONT_STYLE)
 
-    if c.FONT_SHADOW then
-        self.text:SetShadowOffset(1,-1)
-        self.subtext:SetShadowOffset(1,-1)
-    end
-
-    self.text:SetTextColor(.5, .5, .5)
+    self.config = kc:Initialise('JustTheTip',default_config)
+    self.config:RegisterConfigChanged(self,'ConfigChanged')
+    self:ConfigChanged()
 
     self:SetScript('OnUpdate', OnUpdate)
 end

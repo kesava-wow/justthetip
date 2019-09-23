@@ -10,6 +10,8 @@
 ## Notes: Mouseover unit names.
 ## X-Curse-Project-ID: 75429
 ## OptionalDeps: RealMobHealth
+## SavedVariables: JustTheTipSaved
+## SavedVariablesPerCharacter: JustTheTipCharacterSaved
 
 lib\embeds.xml
 core.lua
