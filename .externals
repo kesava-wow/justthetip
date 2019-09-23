@@ -7,6 +7,9 @@ github-kesava:kesava-wow/kuilib.git
 git-subtree kuimedia Kui_Media/
 github-kesava:kesava-wow/kuimedia.git
 
+git-subtree kuiconfig JustTheTip/lib/KuiConfig/
+github-kesava:kesava-wow/kuiconfig.git
+
 svn libstub JustTheTip/lib/LibStub/LibStub.lua
 https://repos.wowace.com/wow/libstub/trunk/LibStub.lua
 
