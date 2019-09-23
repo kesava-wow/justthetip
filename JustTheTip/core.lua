@@ -8,12 +8,13 @@ local RMH
 local default_config = {
     X_OFFSET          = 0,
     Y_OFFSET          = 14,
-    SUBTEXT_Y_OFFSET  = 13,
+    SUBTEXT_Y_OFFSET  = 14,
     FONT              = LSM:GetDefault(LSM.MediaType.FONT),
     FONT_STYLE        = 'THINOUTLINE',
-    FONT_SHADOW       = false,
+    FONT_SHADOW       = true,
     FONT_SIZE         = 13,
-    SUBTEXT_FONT_SIZE = 10
+    SUBTEXT_FONT_SIZE = 10,
+    BRIGHTEN_CLASS    = .2,
 }
 
 local UPDATE_PERIOD = .1
