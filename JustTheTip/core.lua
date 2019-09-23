@@ -99,36 +99,48 @@ local function UpdateDisplay()
         health,max = UnitHealth(u),UnitHealthMax(u)
     end
 
-    -- resolve faction suffix
-    local factionSuf = ''
-    if faction ~= nil and faction ~= UnitFactionGroup('player') then
-        factionSuf = ' |cffff3333!|r'
+    -- resolve name colour (reimplementation of kui.GetUnitColour)
+    local name_r,name_g,name_b
+    if UnitIsTapDenied(u) or UnitIsDeadOrGhost(u) or not UnitIsConnected(u) then
+        name_r,name_g,name_b = .5,.5,.5
+    else
+        if UnitIsPlayer(u) or kui.UnitIsPet(u) then
+            -- class colour (w/CUSTOM_CLASS_COLORS support)
+            name_r,name_g,name_b = kui.GetClassColour(u,2)
+
+            if type(addon.profile.BRIGHTEN_CLASS) == 'number' then
+                -- brighten
+                name_r,name_g,name_b = kui.Brighten(addon.profile.BRIGHTEN_CLASS,name_r,name_g,name_b)
+            end
+        else
+            -- reaction colour
+            name_r,name_g,name_b = UnitSelectionColor(u)
+        end
     end
 
-    -- resolve status
-    local status = (AFK and "[Away] ") or (DND and "[Busy] ") or ""
+    do
+        -- colour strings
+        local level_hex = format("%02x%02x%02x",levelColour.r*255,levelColour.g*255,levelColour.b*255)
+        local name_hex = format("%02x%02x%02x",name_r*255,name_g*255,name_b*255)
 
-    -- resolve level colour to hex
-    levelColour = format("%02x%02x%02x",
-        levelColour.r*255,
-        levelColour.g*255,
-        levelColour.b*255)
+        -- resolve status
+        local status = (AFK and "[Away] ") or (DND and "[Busy] ") or ""
 
-    -- resolve name colour
-    local unitColour = kui.GetUnitColour(u)
-    local nameColour = format("%02x%02x%02x",
-        unitColour.r*255,
-        unitColour.g*255,
-        unitColour.b*255)
+        -- resolve colour length of name as a percentage of health
+        local healthLength = strlen(name) * (health / max)
 
-    -- resolve colour length of name as a percentage of health
-    local healthLength = strlen(name) * (health / max)
+        -- resolve faction suffix
+        local factionSuf = ''
+        if faction ~= nil and faction ~= UnitFactionGroup('player') then
+            factionSuf = ' |cffff3333!|r'
+        end
 
-    addon.text:SetText(
-        '|cff'..levelColour..level..cl..'|r '..
-        '|cff'..nameColour..status..kui.utf8sub(name, 0, healthLength)..'|r'..
-        kui.utf8sub(name, healthLength + 1)..
-        (factionSuf or ''))
+        addon.text:SetText(
+            '|cff'..level_hex..level..cl..'|r '..
+            '|cff'..name_hex..status..kui.utf8sub(name, 0, healthLength)..'|r'..
+            kui.utf8sub(name, healthLength + 1)..
+            (factionSuf or ''))
+    end
 
     -- mouseover's target (subtext)
     if UnitIsVisible("mouseovertarget") then
