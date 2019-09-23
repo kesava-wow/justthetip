@@ -196,9 +196,8 @@ function addon:ConfigChanged()
 end
 
 -- event handlers
-function addon:ADDON_LOADED(name)
-    if name ~= 'JustTheTip' then return end
-    self:UnregisterEvent('ADDON_LOADED')
+function addon:PLAYER_LOGIN()
+    self:UnregisterEvent('PLAYER_LOGIN')
 
     if kui.CLASSIC and RealMobHealth then
         RMH = RealMobHealth
@@ -228,5 +227,5 @@ addon:SetScript('OnEvent', function(self,event,...)
     self[event](self,...)
 end)
 
-addon:RegisterEvent('ADDON_LOADED')
+addon:RegisterEvent('PLAYER_LOGIN')
 addon:RegisterEvent('UPDATE_MOUSEOVER_UNIT')
