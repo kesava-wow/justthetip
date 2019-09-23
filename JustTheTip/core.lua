@@ -4,9 +4,6 @@ local kc = LibStub('KuiConfig-1.0')
 local LSM = LibStub('LibSharedMedia-3.0')
 local RMH
 
--- globals
-local len,format = string.len,string.format
-
 -- settings
 local default_config = {
     X_OFFSET          = 0,
@@ -82,7 +79,7 @@ local function UpdateDisplay()
         nameColour.b*255)
 
     -- resolve colour length of name as a percentage of health
-    local healthLength = len(name) * (health / max)
+    local healthLength = strlen(name) * (health / max)
 
     addon.text:SetText(
         '|cff'..levelColour..level..cl..'|r '..
