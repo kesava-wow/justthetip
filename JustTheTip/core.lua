@@ -73,6 +73,27 @@ do
     end
 end
 
+local function GetUnitColour(u)
+    -- resolve name colour (reimplementation of kui.GetUnitColour)
+    if UnitIsTapDenied(u) then
+        return .75,.75,.75
+    elseif UnitIsDeadOrGhost(u) or not UnitIsConnected(u) then
+        return .5,.5,.5
+    elseif UnitIsPlayer(u) or kui.UnitIsPet(u) then
+        -- class colour (w/CUSTOM_CLASS_COLORS support)
+        local r,g,b = kui.GetClassColour(u,2)
+
+        if type(addon.profile.BRIGHTEN_CLASS) == 'number' then
+            return kui.Brighten(addon.profile.BRIGHTEN_CLASS,r,g,b)
+        else
+            return r,g,b
+        end
+    else
+        -- reaction colour
+        return UnitSelectionColor(u)
+    end
+end
+
 -- main tooltip update function
 local function UpdateDisplay()
     local focus = GetMouseFocus()
@@ -97,26 +118,6 @@ local function UpdateDisplay()
         health,max = RMH.GetUnitHealth(u)
     else
         health,max = UnitHealth(u),UnitHealthMax(u)
-    end
-
-    -- resolve name colour (reimplementation of kui.GetUnitColour)
-    local name_r,name_g,name_b
-    if UnitIsTapDenied(u) then
-        name_r,name_g,name_b = .75,.75,.75
-    elseif UnitIsDeadOrGhost(u) or not UnitIsConnected(u) then
-        name_r,name_g,name_b = .5,.5,.5
-    else
-        if UnitIsPlayer(u) or kui.UnitIsPet(u) then
-            -- class colour (w/CUSTOM_CLASS_COLORS support)
-            name_r,name_g,name_b = kui.GetClassColour(u,2)
-
-            if type(addon.profile.BRIGHTEN_CLASS) == 'number' then
-                name_r,name_g,name_b = kui.Brighten(addon.profile.BRIGHTEN_CLASS,name_r,name_g,name_b)
-            end
-        else
-            -- reaction colour
-            name_r,name_g,name_b = UnitSelectionColor(u)
-        end
     end
 
     do
@@ -151,7 +152,7 @@ local function UpdateDisplay()
             addon.subtext:SetTextColor(1,.1,.1)
             addon.subtext:SetText('|cffff0000You')
         else
-            addon.subtext:SetTextColor(kui.GetUnitColour('mouseovertarget',2))
+            addon.subtext:SetTextColor(GetUnitColour('mouseovertarget'))
             addon.subtext:SetText(name)
         end
     else
