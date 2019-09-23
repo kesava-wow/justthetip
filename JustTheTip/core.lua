@@ -101,7 +101,9 @@ local function UpdateDisplay()
 
     -- resolve name colour (reimplementation of kui.GetUnitColour)
     local name_r,name_g,name_b
-    if UnitIsTapDenied(u) or UnitIsDeadOrGhost(u) or not UnitIsConnected(u) then
+    if UnitIsTapDenied(u) then
+        name_r,name_g,name_b = .75,.75,.75
+    elseif UnitIsDeadOrGhost(u) or not UnitIsConnected(u) then
         name_r,name_g,name_b = .5,.5,.5
     else
         if UnitIsPlayer(u) or kui.UnitIsPet(u) then
@@ -109,7 +111,6 @@ local function UpdateDisplay()
             name_r,name_g,name_b = kui.GetClassColour(u,2)
 
             if type(addon.profile.BRIGHTEN_CLASS) == 'number' then
-                -- brighten
                 name_r,name_g,name_b = kui.Brighten(addon.profile.BRIGHTEN_CLASS,name_r,name_g,name_b)
             end
         else
