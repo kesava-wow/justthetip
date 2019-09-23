@@ -30,6 +30,45 @@ local function SetPosition()
         x, y + addon.profile.SUBTEXT_Y_OFFSET)
 end
 
+local GetNPCTitle
+do
+    local tooltip = CreateFrame('GameTooltip','JustTheTipNPCTitleTooltip',UIParent,'GameTooltipTemplate')
+
+    -- (borrowed from KNP/plugins/guildtext)
+    local function FixPattern(source)
+        return "^"..source:gsub("%%.%$?s?",".+").."$"
+    end
+    local pattern = FixPattern(TOOLTIP_UNIT_LEVEL)
+    local pattern_type = FixPattern(TOOLTIP_UNIT_LEVEL_TYPE)
+    local pattern_class = FixPattern(TOOLTIP_UNIT_LEVEL_CLASS)
+    local pattern_class_type = FixPattern(TOOLTIP_UNIT_LEVEL_CLASS_TYPE)
+
+    GetNPCTitle = function()
+        -- extract npc title from tooltip
+        if UnitIsPlayer('mouseover') or UnitIsOtherPlayersPet('mouseover') then return end
+        tooltip:SetOwner(UIParent,ANCHOR_NONE)
+        tooltip:SetUnit('mouseover')
+
+        local gtext = GetCVarBool('colorblindmode') and
+                      JustTheTipNPCTitleTooltipTextLeft3:GetText() or
+                      JustTheTipNPCTitleTooltipTextLeft2:GetText()
+
+        tooltip:Hide()
+
+        -- ignore strings matching TOOLTIP_UNIT_LEVEL
+        if not gtext or
+           gtext:find(pattern) or
+           gtext:find(pattern_type) or
+           gtext:find(pattern_class) or
+           gtext:find(pattern_class_type)
+        then
+            return
+        end
+
+        return gtext
+    end
+end
+
 -- main tooltip update function
 local function UpdateDisplay()
     local focus = GetMouseFocus()
@@ -65,18 +104,18 @@ local function UpdateDisplay()
     -- resolve status
     local status = (AFK and "[Away] ") or (DND and "[Busy] ") or ""
 
-    -- resolve level to hex string
+    -- resolve level colour to hex
     levelColour = format("%02x%02x%02x",
         levelColour.r*255,
         levelColour.g*255,
         levelColour.b*255)
 
     -- resolve name colour
-    local nameColour = kui.GetUnitColour(u)
-    nameColour = format("%02x%02x%02x",
-        nameColour.r*255,
-        nameColour.g*255,
-        nameColour.b*255)
+    local unitColour = kui.GetUnitColour(u)
+    local nameColour = format("%02x%02x%02x",
+        unitColour.r*255,
+        unitColour.g*255,
+        unitColour.b*255)
 
     -- resolve colour length of name as a percentage of health
     local healthLength = strlen(name) * (health / max)
@@ -100,7 +139,11 @@ local function UpdateDisplay()
             addon.subtext:SetText(name)
         end
     else
-        addon.subtext:SetText("")
+        local npc_title = GetNPCTitle()
+        addon.subtext:SetText(npc_title or '')
+        if npc_title then
+            addon.subtext:SetTextColor(kui.Brighten(.7,unitColour.r,unitColour.g,unitColour.b))
+        end
     end
 
     SetPosition()
