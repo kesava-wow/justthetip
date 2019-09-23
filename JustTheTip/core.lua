@@ -80,8 +80,8 @@ local function UpdateDisplay()
 
     local name = UnitName('mouseover')
     if not name then return end
-
     local u = 'mouseover'
+
     local level,cl,levelColour = kui.UnitLevel(u)
     local AFK,DND,faction =
         UnitIsAFK(u),
@@ -198,6 +198,7 @@ end
 -- event handlers
 function addon:ADDON_LOADED(name)
     if name ~= 'JustTheTip' then return end
+    self:UnregisterEvent('ADDON_LOADED')
 
     if kui.CLASSIC and RealMobHealth then
         RMH = RealMobHealth
