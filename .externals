@@ -13,3 +13,6 @@ github-kesava:kesava-wow/kuiconfig.git
 svn libstub JustTheTip/lib/LibStub/LibStub.lua
 https://repos.wowace.com/wow/libstub/trunk/LibStub.lua
 
+svn libsharedmedia JustTheTip/lib/LibSharedMedia-3.0/
+https://repos.wowace.com/wow/libsharedmedia-3-0/trunk/LibSharedMedia-3.0
+
