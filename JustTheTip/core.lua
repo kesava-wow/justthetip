@@ -150,15 +150,14 @@ local function UpdateDisplay()
             addon.subtext:SetTextColor(1,.1,.1)
             addon.subtext:SetText('|cffff0000You')
         else
-            local nameColour = kui.GetUnitColour('mouseovertarget')
-            addon.subtext:SetTextColor(nameColour.r,nameColour.g,nameColour.b)
+            addon.subtext:SetTextColor(kui.GetUnitColour('mouseovertarget',2))
             addon.subtext:SetText(name)
         end
     else
         local npc_title = GetNPCTitle()
         addon.subtext:SetText(npc_title or '')
         if npc_title then
-            addon.subtext:SetTextColor(kui.Brighten(.7,unitColour.r,unitColour.g,unitColour.b))
+            addon.subtext:SetTextColor(kui.Brighten(.7,name_r,name_g,name_b))
         end
     end
 
