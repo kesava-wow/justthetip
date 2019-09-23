@@ -1,5 +1,7 @@
 
-* [classic] support RealMobHealth
-
-* bump toc
+* use kuiconfig (so there are profiles, but I haven't added a non-script way of editing them yet)
+* use libsharedmedia for fonts
+* add npc "title" text (like trade supplies, flight master, etc)
+* brighten class colour slightly by default
+* brighten tapped unit colour (such that you can still see health)
 
