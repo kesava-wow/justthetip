@@ -45,7 +45,10 @@ do
 
     GetNPCTitle = function()
         -- extract npc title from tooltip
-        if UnitIsPlayer('mouseover') or UnitIsOtherPlayersPet('mouseover') then return end
+        if UnitIsPlayer('mouseover') or kui.UnitIsPet('mouseover') then
+           return
+        end
+
         tooltip:SetOwner(UIParent,ANCHOR_NONE)
         tooltip:SetUnit('mouseover')
 
