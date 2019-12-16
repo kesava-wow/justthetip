@@ -2,14 +2,14 @@
 ## Interface: 80200
 #@end-retail@
 #@non-retail@
-# ## Interface: 11302
+# ## Interface: 11303
 #@end-non-retail@
 
 ## Author: Kesava
 ## Title: Kui |cff9966ffJustTheTip|r
 ## Notes: Mouseover unit names.
 ## X-Curse-Project-ID: 75429
-## OptionalDeps: RealMobHealth
+## OptionalDeps: RealMobHealth, KuiConfigUI
 ## SavedVariables: JustTheTipSaved
 ## SavedVariablesPerCharacter: JustTheTipCharacterSaved
 
