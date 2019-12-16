@@ -2,6 +2,6 @@
     <Script file="LibStub\LibStub.lua"/>
     <Script file="Kui\Kui.lua"/>
     <Script file="KuiConfig\KuiConfig.lua"/>
-    <Include file="LibSharedMedia-3.0\lib.xml"/>
     <Include file="CallbackHandler-1.0\CallbackHandler-1.0.xml"/>
+    <Include file="LibSharedMedia-3.0\lib.xml"/>
 </Ui>
