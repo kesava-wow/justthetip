@@ -1,3 +1,5 @@
+* bump toc
+* embed callbackhandler, whoops
 
 * use kuiconfig (so there are profiles, but I haven't added a non-script way of editing them yet)
 * use libsharedmedia for fonts
